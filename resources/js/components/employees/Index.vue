@@ -6,7 +6,7 @@
             <router-link :to="{ name: 'EmployeesCreate' }" class="btn btn-primary mb-2" style="float: right;">Create Employee</router-link>
         </div>
         <div class="card-body">
-        <table id="datatablesSimple">
+        <table class="table table-bordered" >
         <thead>
             <tr>
                 <th>Name</th>
@@ -15,22 +15,9 @@
                 <th>State</th>
                 <th>City</th>
                 <th>Birtdate</th>
-                <th>Hired Date</th>
                 <th>Manage</th>
             </tr>
         </thead>
-        <tfoot>
-            <tr>
-                <th>Name</th>
-                <th>Country</th>
-                <th>State</th>
-                <th>City</th>
-                <th>Deparment</th>
-                <th>Birtdate</th>
-                <th>Hired Date</th>
-                <th>Manage</th>
-            </tr>
-        </tfoot>
         <tbody v-if="showEmployee">
             <tr         
                 v-for="employee in employees" 
@@ -42,7 +29,6 @@
                 <td>{{ employee.city.name }}</td>
                 <td>{{ employee.department.name }}</td>
                 <td>{{ employee.birthdate }}</td>
-                <td>{{ employee.date_hired }}</td>
                 <td>
                     <router-link :to="{ name: 'EmployeesEdit', params: { id: employee.id } }" style="color: green; text-decoration:none;">Edit</router-link> 
                     <form style="float: right" @submit.prevent="deleteEmployee(employee.id)">

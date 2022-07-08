@@ -215,11 +215,9 @@ export default {
                 birthdate: this.format_date(this.employee.birthdate),
                 date_hired: this.format_date(this.employee.date_hired)
             })
-            .then(res => {
-                this.$router.go('/')
-                console.log('hello')
+            .then(res => {      
+                this.$router.push('/')       
             }).catch(err => {
-                console.log( err.response)
                 this.errors = err.response.data.errors;
             }) 
         },
