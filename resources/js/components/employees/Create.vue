@@ -12,11 +12,17 @@
                         <input v-model="employee.first_name" class="form-control" name="name" id="inputName" type="text" placeholder="Enter country name" />
                         <label for="inputName">First Name</label>
                     </div>
+                    <div v-if="errors.first_name" style="color: red">
+                        {{ errors.first_name[0] }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating">
                         <input v-model="employee.middle_name" class="form-control" name="name" id="inputName" type="text" placeholder="Enter country name" />
                         <label for="inputName">Middle Name</label>
+                    </div>
+                    <div v-if="errors.middle_name" style="color: red">
+                        {{ errors.middle_name[0] }}
                     </div>
                 </div>
             </div>
@@ -26,11 +32,17 @@
                         <input v-model="employee.last_name" class="form-control" name="name" id="inputName" type="text" placeholder="Enter country name" />
                         <label for="inputName">Last Name</label>
                     </div>
+                    <div v-if="errors.last_name" style="color: red">
+                        {{ errors.last_name[0] }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating">
                         <input v-model="employee.address" class="form-control" name="name" id="inputName" type="text" placeholder="Enter country name" />
                         <label for="inputName">Address Name</label>
+                    </div>
+                    <div v-if="errors.address" style="color: red">
+                        {{ errors.address[0] }}
                     </div>
                 </div>
             </div>
@@ -41,6 +53,9 @@
                             <option value="">Select Coutry</option>
                                 <option v-for="country in countries" :key="country.id" :value="country.id" >{{ country.name }}</option>
                         </select>
+                        <div v-if="errors.country_id" style="color: red">
+                        {{  errors.country_id[0].replace("id ","") }}
+                    </div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -51,6 +66,9 @@
                                 <option v-for="state in states" :key="state.id" :value="state.id" >{{ state.name }}</option>
                            
                         </select>
+                        <div v-if="errors.state_id" style="color: red">
+                            {{ errors.state_id[0].replace("id ","") }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -64,6 +82,9 @@
                                 <option v-for="city in cities" :key="city.id"  :value="city.id" >{{ city.name}} </option>
                            
                         </select>
+                        <div v-if="errors.city_id" style="color: red">
+                            {{ errors.city_id[0].replace("id ","") }}
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -72,6 +93,9 @@
                             <option value="">Select Department</option>
                             <option v-for="department in departments" :key="department.id" :value="department.id">{{ department.name }}</option>                         
                         </select>
+                        <div v-if="errors.department_id" style="color: red">
+                            {{ errors.department_id[0].replace("id ","") }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,11 +106,17 @@
                         <Datepicker class="form-control" id="inputName" v-model="employee.birthdate"></Datepicker>
                         <label for="inputName">Birth Date</label>
                     </div>
+                    <div v-if="errors.birthdate" style="color: red">
+                        {{ errors.birthdate[0] }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating">
                          <Datepicker class="form-control" id="inputName" v-model="employee.date_hired"></Datepicker>
                         <label for="inputName">Date Hired</label>
+                    </div>
+                    <div v-if="errors.date_hired" style="color: red">
+                        {{ errors.date_hired[0] }}
                     </div>
                 </div>
             </div>
@@ -96,6 +126,9 @@
                     <div class="form-floating">
                         <input v-model="employee.zip_code" class="form-control" name="name" id="inputName" type="text" placeholder="Enter country name" />
                         <label for="inputName">Zipcode</label>
+                    </div>
+                    <div v-if="errors.zip_code" style="color: red">
+                        {{ errors.zip_code[0] }}
                     </div>
                 </div>
             </div>
@@ -134,7 +167,8 @@ export default {
             countries: [],
             states: [],
             cities: [],
-            departments: []
+            departments: [],
+            errors: []
         }
     },
     components: { Datepicker },
@@ -182,9 +216,12 @@ export default {
                 date_hired: this.format_date(this.employee.date_hired)
             })
             .then(res => {
-                console.log(data)
-                this.$router.go('/');
-            }).catch(err => console.log(err))
+                this.$router.go('/')
+                console.log('hello')
+            }).catch(err => {
+                console.log( err.response)
+                this.errors = err.response.data.errors;
+            }) 
         },
         format_date(value) {
             if (value) {
